@@ -1,0 +1,30 @@
+attribute vec4 position;
+attribute vec4 color;
+attribute vec2 texCoord;
+
+uniform mat4 mvp_Matrix_Filt;
+
+varying vec4 colorVarying;
+varying vec2 texCoordVarying;
+
+
+void main()
+{
+	gl_Position = mvp_Matrix_Filt * position;
+	colorVarying = color;
+	texCoordVarying = texCoord;
+}
+
+%
+
+varying lowp vec4 colorVarying;
+varying mediump vec2 texCoordVarying;
+
+uniform sampler2D filtrationTexture;
+uniform lowp float textureAlpha;
+
+void main()
+{
+	lowp vec4 texColor = texture2D( filtrationTexture, texCoordVarying );
+	gl_FragColor = colorVarying + texColor*textureAlpha;
+}

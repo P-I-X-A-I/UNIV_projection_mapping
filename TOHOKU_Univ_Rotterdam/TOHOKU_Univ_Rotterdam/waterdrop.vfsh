@@ -1,0 +1,27 @@
+attribute vec4 position;
+attribute vec4 color;
+attribute vec2 texCoord;
+
+uniform mat4 mvp_Matrix_waterdrop;
+
+varying vec4 colorVarying;
+varying vec2 texCoordVarying;
+void main()
+{
+	gl_Position = mvp_Matrix_waterdrop * position;
+	colorVarying = color;
+	texCoordVarying = texCoord;
+}
+
+%
+
+varying lowp vec4 colorVarying;
+varying mediump vec2 texCoordVarying;
+
+uniform sampler2D waterdropTexture;
+void main()
+{
+	lowp vec4 texColor = texture2D( waterdropTexture, texCoordVarying );
+	//gl_FragColor = colorVarying * vec4( texColor.g, texColor.g, texColor.b, texColor.r );
+	gl_FragColor = colorVarying * vec4( 1.0, 1.0, 1.0, texColor.r );
+}

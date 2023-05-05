@@ -1,0 +1,29 @@
+
+attribute vec4 position;
+attribute vec4 color;
+attribute vec2 texCoord;
+
+uniform mat4 mvp_Matrix_RainGarden;
+
+varying vec4 colorVarying;
+varying vec2 texCoordVarying;
+
+void main()
+{
+	gl_Position = mvp_Matrix_RainGarden * position;
+	colorVarying = color;
+	texCoordVarying = texCoord;
+}
+
+%
+
+varying lowp vec4 colorVarying;
+varying mediump vec2 texCoordVarying;
+
+uniform sampler2D raingardenTexture;
+
+void main()
+{
+	lowp vec4 texColor = texture2D( raingardenTexture, texCoordVarying );
+	gl_FragColor = vec4( colorVarying.rgb, texColor.g*0.96 + 0.04 );
+}
